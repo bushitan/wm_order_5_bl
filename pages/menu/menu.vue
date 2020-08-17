@@ -296,7 +296,7 @@
 				
 				cardCur: 0,
 				swiperList:[
-					"../../static/images/strong/share.jpg",
+					"../../static/images/strong/swiper3.jpg",
 					// "https://wm.51zfgx.com/images/thumbs/0002363.jpeg",
 				],
 				
