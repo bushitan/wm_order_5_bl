@@ -57,7 +57,7 @@
 					</view>
 					<view class="cu-form-group  text-left">
 						<view class="title">地址：</view>
-						<input placeholder="请输入地址" name="address" :value="address" disabled="true"></input>
+						<input placeholder="请输入地址" name="address" :value="address" ></input>
 					</view>
 					<view class="cu-form-group  text-left">
 						<view class="title">经度：</view>

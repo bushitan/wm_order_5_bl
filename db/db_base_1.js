@@ -44,6 +44,12 @@ class dbBase{
 	SHIP_STATUS_DELIVER = 40 //已送达
 	SHIP_STATUS_CANCEL = 50 //已取消
 	
+	// 轮播图的5个位置
+	BANNER_MAIN = 1 // 门店选择
+	BANNER_PRODUCT = 2 // 产品热销
+	BANNER_MENU = 3 // 菜单
+	BANNER_SELF = 4 // 我的
+	BANNER_OTHER = 5 //其他
 	
 	APP_ID = "2f9bb072816e4d0da070cd32d0a2cf35"  // leisure
 	// APP_ID = "aaa418db45c94cf7863a30b3f97c7e30" // 门店安心卡 

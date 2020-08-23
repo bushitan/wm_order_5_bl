@@ -1,6 +1,6 @@
 <template>
 	<view class="flex align-center  box" :style="'background-color:' + bgColor">
-		<image class="cover" src="../../static/images/strong/loading.jpg" mode="widthFix"></image>
+		<image class="cover" src="../../static/images/strong/loading.jpg" mode="aspectFill"></image>
 		<view class="flex justify-center " style="position: fixed; bottom: 20px;left: 0;right: 0;" >
 			<button class="cu-btn line-gray round" @click="clickTo">
 				点击进入

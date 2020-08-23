@@ -1,7 +1,7 @@
 <template>
 	<view >
 		<view class="flex   box" style="background-color:#535e7c; position: fixed; width: ;">
-			<image class="cover" src="/static/images/strong/loading.jpg" mode="widthFix" ></image>
+			<image class="cover" src="/static/images/strong/loading.jpg" mode="aspectFill" ></image>
 			<!-- <view class="flex justify-center " style="position: fixed; bottom: 20px;left: 0;right: 0;" >
 				<button class="cu-btn line-gray round" @click="clickTo">
 					点击进入
@@ -169,6 +169,7 @@
 	}
 	.cover{
 		width: 100%;
+		height: 100vh;
 		display: block;
 		
 	}

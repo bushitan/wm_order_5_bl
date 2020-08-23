@@ -28,7 +28,7 @@
 						</text>      		                 
 		            </view>
 		            <view class="action">
-						<text class="text-yellow text-bold" v-if="order.order_status_code==ORDER_STATUS_PENDING">去支付</text>
+						<text class="text-yellow text-bold" v-if="order.order_status_code==ORDER_STATUS_PENDING">（30分钟内有效）去支付</text>
 						<text class="text-yellow text-bold" v-if="order.order_status_code==ORDER_STATUS_PROCESSING">{{order.order_status}}</text>
 						<text class="text-yellow text-bold" v-if="order.order_status_code==ORDER_STATUS_COMPLETE">{{order.order_status}}</text>
 						<text class="text-yellow text-bold" v-if="order.order_status_code==ORDER_STATUS_CANCEL">{{order.payment_status}}</text>
@@ -137,12 +137,31 @@
 					Limit:this.$data.limit,
 					Status : this.$data.Status,
 				}
-				// if(this.$data.isRefund) 
-				// 	data.Status = this.db.PAYMENT_STATUS_REFUND
+				
+				if (this.$data.Status == this.db.ORDER_STATUS_PENDING)
+					data.CreatedAtMin = this.getMinDate()
 											
 				var res = await this.db.orderGetCustomerOrder(data)			
 				this.db.listUpdate(this , res)
 			},
+			
+			
+			getMinDate(){
+				var date1 = new Date()
+				var s1 = date1.getTime() - 1800 * 1000 
+				return this.formatDate(s1)
+			},
+			formatDate(date) {			
+			  var date = new Date(date);			
+			  var YY = date.getFullYear() + '-';			
+			  var MM = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';			
+			  var DD = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate());			
+			  var hh = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';			
+			  var mm = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';			
+			  var ss = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());			
+			  return YY + MM + DD +" "+hh + mm + ss;			
+			},
+			
 			
 			/**
 			 * @method 点击选项卡

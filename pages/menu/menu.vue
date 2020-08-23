@@ -8,10 +8,11 @@
 		</view> -->
 		<swiper class="screen-swiper square-dot  bg-white" :indicator-dots="true" :circular="false" :autoplay="true" interval="5000"
 		 duration="500">
-			<swiper-item class="swiper-height" v-for="(item,index) in swiperList" :key="index">
-				<image :src="item" mode="aspectFill" ></image>
+			<swiper-item class="swiper-height" v-for="(item,index) in swiperList.SliderItems" :key="index" @click="toLink(item.Link)">
+				<image :src="item.Picture" mode="aspectFill" ></image>
 			</swiper-item>
 		</swiper>
+		
 	<!-- 	<swiper class="screen-swiper card-swiper round-dot}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#0081ff">
 			  <swiper-item v-for="(item,idnex) in swiperList" bind:key="index" :class="cardCur==index?'cur':''">
 				<view class="swiper-item">
@@ -24,7 +25,7 @@
 		
 		
 		<view class="VerticalBox">
-			<scroll-view class="VerticalNav nav" scroll-y scroll-with-animation :scroll-top="verticalNavTop" :style="'height:calc(100vh - 375upx - '+ SpaceBottom +'px)'">
+			<scroll-view class="VerticalNav nav" scroll-y scroll-with-animation :scroll-top="verticalNavTop" :style="'height:calc(100vh - 375rpx - '+ SpaceBottom +'px)'">
 				<view class="cu-item" 
 				:class="index==tabCur?'text-yellow text-bold  bg-white cur flex align-center ':''" 
 				v-for="(category,index) in list" :key="index" @tap="TabSelect" :data-id="index"
@@ -34,7 +35,7 @@
 				<view class="pg-space-xxl"></view>
 				<view class="pg-space-xxl"></view>				
 			</scroll-view>
-			<scroll-view class="VerticalMain" scroll-y scroll-with-animation style="height:calc(100vh - 375upx - 0px)"
+			<scroll-view class="VerticalMain" scroll-y scroll-with-animation style="height:calc(100vh - 375rpx - 0px)"
 			 :scroll-into-view="'main-'+mainCur" @scroll="VerticalMain">
 				<view class="padding-top padding-lr" v-for="(category,index) in list" :key="index" :id="'main-'+index">
 					<view class="cu-bar  bg-white">
@@ -295,10 +296,7 @@
 				showReLoad:false,
 				
 				cardCur: 0,
-				swiperList:[
-					"../../static/images/strong/swiper3.jpg",
-					// "https://wm.51zfgx.com/images/thumbs/0002363.jpeg",
-				],
+				swiperList:[],
 				
 				
 				list: [],
@@ -347,6 +345,7 @@
 			// 	title: '加载中...',
 			// 	mask: true
 			// });
+			this.getSwiper()
 			this.reload()					
 		},
 		onShow(){
@@ -360,6 +359,14 @@
 			// uni.hideLoading()
 		},
 		methods: {
+			async getSwiper(){
+				// 获取轮播图
+				var res = await this.db.storeBanner({
+					ShopId: uni.getStorageSync(this.db.KEY_SHOP_ID ),
+					Location:this.db.BANNER_MENU
+				})
+				this.setData({  swiperList:res.data })
+			},
 			reload(){
 				this.setData({
 					shopId:uni.getStorageSync(this.db.KEY_SHOP_ID) || "",
@@ -689,6 +696,13 @@
 			toPay(){
 				uni.navigateTo({
 					url:"/pages/order/pay"
+				})
+			},
+			
+			
+			toLink(url){
+				uni.navigateTo({
+					url:url
 				})
 			},
 			

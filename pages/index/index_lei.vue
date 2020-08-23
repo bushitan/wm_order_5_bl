@@ -38,21 +38,21 @@
 					</swiper>
 				</view>
 			</view> -->
+			<image src="/static/images/strong/header.jpg" mode="widthFix" style="width:750rpx"></image>
 			
 			
-		<!-- 	<swiper class="card-swiper square-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500"  indicator-color="#8799a3" indicator-active-color="#000000">
-				<swiper-item v-for="(item,index) in swiperInfo.list" :key="index" 
+<!-- 			<swiper class="card-swiper square-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500"  indicator-color="#8799a3" indicator-active-color="#000000">
+				<swiper-item v-for="(item,index) in swiperList.SliderItems" :key="index" 
 					:class="cardCur==index?'cur':''" 
-					@click="toGoodDetal(item.url)">
+					@click="toLink(item.Link)">
 					<view class="swiper-item">
-						<image :src="item.swiper" mode="aspectFill" class="swiper_image" >
-							<view class="swiper_mask text-white text-right padding-tb-xs padding-lr text-bold">{{item.title}}</view>
+						<image :src="item.Picture" mode="aspectFill" class="swiper_image" >
+							<view class="swiper_mask text-white text-right padding-tb-xs padding-lr text-bold">{{item.Text}}</view>
 						</image>
 					</view>
 				</swiper-item>
-			</swiper> -->
-			
-			<image src="/static/images/strong/header.jpg" mode="widthFix" style="width:750rpx"></image>
+			</swiper>
+			 -->
 			
 			<!-- <view class=" flex justify-around margin-top">
 				<view class="flex flex-direction">
@@ -76,19 +76,20 @@
 				  </view>
 			</view>
 			
-			<view class="cu-card case no-card" v-for="(item,index) in goodList" @click="toGoodDetal(item.url)">
+			<view class="cu-card case no-card" v-for="(item,index) in goodList" @click="toGoodDetal(item.id)">
 				<view class="cu-item ">
 					<view class="image shadow shadow-warp">
-						  <image :src="item.cover" mode="aspectFill" style="height: 200px;"></image>
-						  <view class="cu-tag bg-red"  >{{item.des}}</view>
+						  <image :src="item.imgs[0].src" mode="aspectFill" style="height: 200px;"></image>
+						  <view class="cu-tag bg-red"  >{{item.shortDescription}}</view>
 						  <view class="cu-bar bg-shadeBottom">
 							<text class="text-cut">{{item.name}}</text>
 						  </view>
 					</view>
 					<view class=" flex justify-between padding" v-if="isDistributor" >
 						<view class=" flex-sub">
-							<view class="text-black ">{{item.name}}</view>
-							<view class="text-gray  text-sm flex justify-between">{{item.shareDes}}</view>
+							<!-- <view class="text-black ">{{item.name}}</view> -->
+							<view class="text-gray  text-sm flex justify-between"></view>
+							<rich-text :nodes="item.fullDescription"></rich-text>
 						</view>
 						<view class="action">
 							<button class="cu-btn round" @click.stop="getShareQR(index)">获取分享海报</button>
@@ -131,10 +132,9 @@
 				isHost: true,
 				isSeller: true,
 				daystats: { totalScore: 0, totalPrize:0}, // 今日数据
-					swiperList:[
-						"/static/images/strong/swiper1_lg.jpg",
-						"/static/images/strong/swiper2_lg.jpg",
-					],
+				
+				swiperList:[],
+				
 				storeList:[
 					{name:"康浦店",id:1,url:"/static/images/strong/store_1.png"},
 					{name:"盛天地店",id:7,url:"/static/images/strong/store_2.png"},
@@ -143,83 +143,8 @@
 				store:{},
 				orderList:[], //订单列表
 				
-				
-				
-				swiperInfo: {index: 0, show: true, welcome: true, 
-					list: [						
-						{
-							swiper: 'https://wm.51zfgx.com/images/thumbs/0002370_branch.jpeg',
-							url:"/pages/good/good?itemId=1266",
-							title:"不赶时间，一起吃brunch吧！"
-						},
-						// {
-						// 	swiper: 'https://wm.51zfgx.com/images/thumbs/0002375_-99.jpeg',
-						// 	url:"/pages/good/good?itemId=1269",
-						// 	title:"一杯拿铁，打开一天的咖啡瘾！"
-						// },
-						{
-							swiper: 'https://wm.51zfgx.com/images/thumbs/0002374.jpeg',
-							url:"/pages/good/good?itemId=1270",
-							title:"咖啡课堂，初级拉花体验课"
-						},
-						// {
-						// 	swiper: '../../static/images/strong/banner.jpg',
-						// 	background: '/static/images/home/swiper/swiper-background-3.png',
-						// 	url:"/pages/good/good?itemId=1230",
-						// }
-					]},
-				
 				isDistributor:false, //是否有分享能力
-				goodList:[	
-					
-					{
-						goodID : 1291,
-						cover: 'https://wm.51zfgx.com/images/thumbs/0002441.jpeg',
-						name:"单人可颂下午茶",
-						des: '单人超值24元套餐！',
-						url:"/pages/good/good?itemId=1291",
-						shareDes:"点击分享、获得2.4积分",
-					},
-					{
-						goodID : 1290,
-						cover: 'https://wm.51zfgx.com/images/thumbs/0002440.jpeg',
-						name:"双人吐司下午茶",
-						des: '超值优惠套餐，仅仅32元！',
-						url:"/pages/good/good?itemId=1290",
-						shareDes:"点击分享、获得3.2积分",
-					},
-					// {
-					// 	goodID : 1276,
-					// 	cover: 'https://wm.51zfgx.com/images/thumbs/0002418.jpeg',
-					// 	name:"瑞士巧克力",
-					// 	des: '点击分享、获得1.7积分',
-					// 	url:"/pages/good/good?itemId=1276",
-					// },
-					// {
-					// 	goodID : 1277,
-					// 	cover: 'https://wm.51zfgx.com/images/thumbs/0002420_100.jpeg',
-					// 	name:"100%全麦面包",
-					// 	des: '点击分享、获得2.2积分',
-					// 	url:"/pages/good/good?itemId=1277",
-					// },
-					// {
-					// 	goodID : 1278 ,
-					// 	cover: 'https://wm.51zfgx.com/images/thumbs/0002423.jpeg',
-					// 	name:"杏仁吐司",
-					// 	des: '点击分享、获得1.2积分',
-					// 	url:"/pages/good/good?itemId=1278",
-					// },
-					// {
-					// 	goodID : 1274,
-					// 	cover: 'https://wm.51zfgx.com/images/thumbs/0002408.jpeg',
-					// 	name:"原味可颂",
-					// 	des: '点击分享、获得1.2积分',
-					// 	url:"/pages/good/good?itemId=1274",
-					// },		
-					
-					
-					
-				],
+				goodList:[	], // 产品列表
 			}
 		},
 		onLoad() {
@@ -258,21 +183,23 @@
 		methods: {
 			
 			async onInit(){		
-				// var res = await this.db.orderGetList({
-				// 	Page:1,
-				// 	Limit:15,				
-				// 	CreatedAtMin: this.today,
-					
-				// })	
-				// this.setData({
-				// 	orderList:res.data
+				// // 获取轮播图
+				// var res = await this.db.storeBanner({
+				// 	ShopId: uni.getStorageSync(this.db.KEY_SHOP_ID ),
+				// 	Location:this.db.BANNER_PRODUCT
 				// })
+				// this.setData({  swiperList:res.data })
+				
+				// 获取首页列表
+				var res = await this.db.productGetNew()
+				console.log(res)
+				this.setData({ goodList:res.data })
+				
 				this.setData({
 					sn:uni.getStorageSync(this.db.KEY_SN)
 				})
-				
+				// 获取用户的积分
 				var res = await this.db.customerGetPoint()
-				console.log(res)
 				this.setData({
 					totalFee:res.data.wallet.totalFee || '0',
 					balance:res.data.wallet.balance || '0', 
@@ -302,9 +229,16 @@
 				
 			},
 			
-			toGoodDetal(url){
+			
+			toLink(url){
 				uni.navigateTo({
 					url:url
+				})
+			},
+			
+			toGoodDetal(id){
+				uni.navigateTo({
+					url:"/pages/good/good?itemId=" + id
 				})
 			},
 			

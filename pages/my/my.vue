@@ -6,7 +6,7 @@
 		
 		<view class="cu-list menu padding-tb ">
 			<view class="cu-item " style="background-color: transparent;">
-				<view class="action">
+				<view class="action flex align-center">
 					<!-- <image :src='userInfo.WxAvatarUrl' -->
 					<image src='/static/images/strong/logo.jpg' 
 					
@@ -14,9 +14,13 @@
 						class="cu-avatar round  bg-gray margin-right" 
 						style="width: 72px;height: 72px;"></image>
 					<!-- <text class="text-black bg-yellow text-bold text-df" v-if="userInfo.name">{{userInfo.name}}</text> -->
-					<button class="cu-btn round text-white bg-yellow text-bold text-df"  open-type="getUserInfo" @getuserinfo="getuserinfo" >
-						{{userInfo ?　userInfo.WxNickName ? userInfo.WxNickName:'登陆' :'登陆'}}
-					</button>
+					<view class="align-center">
+						
+						<button class="cu-btn round text-white bg-yellow text-bold text-df"  open-type="getUserInfo" @getuserinfo="getuserinfo" >
+							{{userInfo ?　userInfo.WxNickName ? userInfo.WxNickName:'登陆' :'登陆'}}
+						</button>
+						<view class="text-gray sm margin-top-xs"> SN:{{userInfo.id}}</view>
+					</view>
 				</view>
 				<!-- <view class="action">
 					<button class="cu-btn round text-yellow text-bold" catchtap="deleteEmployee" > 删除</button>
@@ -24,12 +28,14 @@
 			</view>
 		</view>
 		
-		<!-- 
+		
 		<view class="cu-card padding-lr margin-top">
 		    <view class=" pg-radius  shadow shadow-warp bg-white">
-				<image  src="https://wm.51zfgx.com/images/thumbs/0002376.jpeg" mode="widthFix" class="pg-image-block"></image>
+				<image  v-for="(item,index) in swiperList.SliderItems" :key="index" @click="toLink(item.Link)"
+				:src="item.Picture"
+				mode="widthFix" class="pg-image-block"></image>
 		    </view>
-		</view> -->
+		</view>
 		
 		<view class="cu-card padding-lr margin-top ">
 		    <view class=" pg-radius  shadow shadow-warp bg-white">
@@ -148,7 +154,7 @@
 					// nickName: "this.丰丰 (¦(¦3[]"
 					// province: "Wicklow"
 				},
-
+				swiperList:[],
 			}
 		},
 		onLoad() {
@@ -156,11 +162,19 @@
 		},
 		methods: {
 			async onInit(){
+				// 获取用户信息
 				var res = await this.db.customerGetInfo()
 				console.log(res)
 				this.setData({
 					userInfo:res.data
 				})
+				
+				// 获取轮播图
+				var res = await this.db.storeBanner({
+					ShopId: uni.getStorageSync(this.db.KEY_SHOP_ID ),
+					Location:this.db.BANNER_SELF
+				})
+				this.setData({  swiperList:res.data })
 			},
 			
 			//登录
@@ -260,6 +274,13 @@
 				  fail(res){
 					  console.log(res)
 				  },
+				})
+			},
+			
+			
+			toLink(url){
+				uni.navigateTo({
+					url:url
 				})
 			},
 		}

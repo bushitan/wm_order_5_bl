@@ -64,15 +64,29 @@
 				
 					</view>
 					<view class="pg-arrow"></view>
-				</view>		
+				</view>	
+			</view>	
+		</view>
+		
+		<view class="cu-card padding-lr margin-top-sm" >
+		    <view class=" bg-white pg-radius  shadow shadow-warp">
 				<view class="cu-form-group  text-right text-sm" v-if="ShopTakeValue == SHOP_TAKE_ZQ">
 					<view class=" text-sm">取单电话</view>
 					<input placeholder="请输入取单电话" mode="digit" :value="OrderPrePhone"
 					placeholder-class="text-sm" class="text-sm " @input="inputOrderPrePhone"></input>
 					<view class="pg-arrow"></view>
 				</view>
-				<view class="cu-form-group"  v-if="ShopTakeValue == SHOP_TAKE_ZQ" >
-					<view class="text-sm">取单时间</view>
+				<!-- <view class="cu-form-group"  v-if="ShopTakeValue == SHOP_TAKE_ZQ" > -->
+				<view class="cu-form-group">
+					<view class="text-sm">预定发货日期</view>
+					<picker mode="date" :value="PickDate" :start="PickStartDate" @change="DateChange">
+						<view class="picker">
+							{{PickDate}}
+						</view>
+					</picker>
+				</view>
+				<view class="cu-form-group">
+					<view class="text-sm">预定发货时间</view>
 					<picker mode="time" :value="PickTime" :start="PickStartTime" end="21:01" @change="TimeChange">
 						<view class="picker">
 							{{PickTime}}
@@ -86,9 +100,8 @@
 					<input placeholder="请输入口味等" name="OrderNote" placeholder-class="text-sm" class="text-sm " @input="inputOrderNote"></input>
 					<view class="pg-arrow"></view>
 				</view>
-		    </view>
+			</view>
 		</view>
-		
 		
 		<view class="cu-card padding-lr margin-top">
 		    <view class=" bg-white pg-radius  shadow shadow-warp">
@@ -232,7 +245,7 @@
 			
 			var curDate = new Date();
 			var date = new Date(curDate.getTime() + 6 * 60 * 1000);
-			
+			var currentDate = date.getFullYear() + "-" + ( date.getMonth() + 1 ) + "-" + date.getDate()
 			var hour = date.getHours();
 			hour = hour < 10? "0" + hour : hour;
 			var minute = date.getMinutes();
@@ -267,6 +280,8 @@
 				// ReciveAddress:'',
 				// ReciveCityName:'',
 				
+				PickDate:currentDate, // 选择日期
+				PickStartDate:currentDate,
 				PickTime:currentTime, // 选择时间
 				PickStartTime:currentTime,				
 				
@@ -542,7 +557,7 @@
 					"OrderNote":this.$data.OrderNote,//订单描述				  
 					"ShopId":this.$data.StoreId,
 					"CustomerTakeType":this.$data.ShopTakeValue,
-					"WishDateTime": this.$data.PickTime,
+					"WishDateTime":  this.$data.PickDate + " " + this.$data.PickTime,
 					"formId":formId,
 					// "AppId":"5099f520489646d28ce9df352237c059" ,// 门店点Appid，不是小程序ID
 				}
@@ -597,6 +612,8 @@
 			inputOrderNote(e){ this.setData({OrderNote:e.detail.value}) },	
 			// 返回
 			back(){	uni.navigateBack({}) },				
+			// 单时间选择
+			DateChange(e) { this.setData({PickDate: e.detail.value}) },
 			// 单时间选择
 			TimeChange(e) { this.setData({PickTime: e.detail.value}) },
 		}

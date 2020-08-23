@@ -101,5 +101,18 @@ class son extends fahter{
 			})
 		})
 	}
+	
+	
+	/**
+	 * @method 4 获取新品 
+	 * @param 
+		id
+		fields
+	 */
+	productGetNew(data) {
+		return new Promise((resolve, reject) => {
+			this.base({url: this.HOST_URL +  "api/get/newproduct/",data: data,}).then(res => {resolve(res.data)}).catch(res => reject(res))
+		})
+	}
 }
 module.exports = son

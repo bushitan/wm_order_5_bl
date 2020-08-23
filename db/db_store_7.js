@@ -35,6 +35,8 @@ class son extends fahter{
 	}
 	/**
 	 * @method 3 获取门店轮播图
+	 * 当前有2个api,一个  api/store/banner 不再使用
+	 * api/shop/banner 为正在使用的可以获取5个type的轮播图
 	 * @param 
 		Fields
 		AppId
@@ -42,7 +44,7 @@ class son extends fahter{
 	 */
 	storeBanner(data) {
 		return new Promise((resolve, reject) => {
-			this.base({url: this.HOST_URL +  "api/store/banner/",data: data,}).then(res => {resolve(res.data)}).catch(res => reject(res))
+			this.base({url: this.HOST_URL +  "api/shop/banner/",data: data,}).then(res => {resolve(res.data)}).catch(res => reject(res))
 		})
 	}
 	
